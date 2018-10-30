@@ -1,6 +1,4 @@
-import java.util.Comparator;
-
-public class Student implements Comparable<Student>{
+public class Student {
 
 	private int ID;
 	private String Fname;
@@ -36,44 +34,5 @@ public class Student implements Comparable<Student>{
 	}
 	public void setGPA(double x) {
 		this.GPA = x;
-	}
-	
-	@Override
-	public int compareTo(Student o) {
-		// TODO Auto-generated method stub
-		return o.getID()-this.getID();
-	}
-	
-	public int compareFNameTo(Student o) {
-		// TODO Auto-generated method stub
-		return o.getFname().compareToIgnoreCase(this.Fname);
-	}
-	public int compareLNameTo(Student o) {
-		// TODO Auto-generated method stub
-		return o.getLname().compareToIgnoreCase(this.Lname);
-	}
-	public boolean compareGPATo(Student o) {
-		// TODO Auto-generated method stub
-		if(o.getGPA()-this.GPA > 0){
-			return true;
-		}
-		return false;
-	}
-	
-	
-	public static void sort(Student[] stu,Comparator<Student> c,boolean asc) {
-		Student tmp;
-		for (int k = 0; k < stu.length-1; k++) {
-			for (int k2 = 0; k2 < stu.length; k2++) {
-				if ((c.compare(stu[k], stu[k2])>0&&asc==true)||(c.compare(stu[k], stu[k2])<0&&asc==false)) {
-					tmp = stu[k];
-					stu[k]=stu[k2];
-					stu[k2]=tmp;
-				}
-			}
-		}
-		for (int i = 0; i < stu.length; i++) {
-			System.out.println(stu[i].getID()+" "+stu[i].getFname()+" "+stu[i].getLname()+" "+stu[i].getGPA());
-		}
 	}
 }

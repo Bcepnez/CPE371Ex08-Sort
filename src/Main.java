@@ -1,3 +1,5 @@
+import java.util.Comparator;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +23,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
+		
 		primaryStage.setTitle("58070501043");
 		
 		person[0] = new Student(1239, "D", "AAA", 3.5);
@@ -52,19 +55,19 @@ public class Main extends Application {
 		asc.setOnAction(e->{
 			ascen=true;
 			if(radio1.isSelected()){
-				sorting(ascen);
+				sort(StdID, ascen);
 			}
 			else if(radio2.isSelected()){
-				sortingFname(ascen);
+				sort(StdName, ascen);
 			}
 			else if(radio3.isSelected()){
-				sortingLname(ascen);
+				sort(StdLName, ascen);
 			}
 			else if(radio4.isSelected()){
-				sortingGPA(ascen);
+				sort(StdGPA, ascen);
 			}
 			else{
-				sorting(ascen);
+				sort(StdID, ascen);
 			}
 			primaryStage.setScene(Setting());
 			primaryStage.show();
@@ -72,47 +75,48 @@ public class Main extends Application {
 		des.setOnAction(e->{
 			ascen=false;
 			if(radio1.isSelected()){
-				sorting(ascen);
+				sort(StdID, ascen);
 			}
 			else if(radio2.isSelected()){
-				sortingFname(ascen);
+				sort(StdName, ascen);
 			}
 			else if(radio3.isSelected()){
-				sortingLname(ascen);
+				sort(StdLName, ascen);
 			}
 			else if(radio4.isSelected()){
-				sortingGPA(ascen);
+				sort(StdGPA, ascen);
 			}
 			else{
-				sorting(ascen);
+				sort(StdID, ascen);
 			}
 			primaryStage.setScene(Setting());
 			primaryStage.show();
 		});
 
 		radio1.setOnAction(e -> {
-			sorting(ascen);
+			sort(StdID, ascen);
 			primaryStage.setScene(Setting());
 			primaryStage.show();
 		});
 		radio2.setOnAction(e -> {
-			sortingFname(ascen);
+			sort(StdName, ascen);
 			primaryStage.setScene(Setting());
 			primaryStage.show();
 		});
 		radio3.setOnAction(e -> {
-			sortingLname(ascen);
+			sort(StdLName, ascen);
 			primaryStage.setScene(Setting());
 			primaryStage.show();
 		});
 		radio4.setOnAction(e -> {
-			sortingGPA(ascen);
+			sort(StdGPA, ascen);
 			primaryStage.setScene(Setting());
 			primaryStage.show();
 		});
 		primaryStage.setScene(Setting());       
 		primaryStage.show();
 	}
+	
 	private Scene Setting() {
 		Label labelfirst= new Label("Student DB Query");
 		GridPane gridPane = new GridPane();
@@ -145,73 +149,53 @@ public class Main extends Application {
 		Scene scene1= new Scene(gridPane, 450, 250);
 		return scene1;
 	}
-	private void sorting(boolean asc) {
-		for (int i = 0; i < person.length-1; i++) {
-			for (int j = 0; j < person.length-1; j++) {
-				if(asc){
-					if(person[i].compareTo(person[j])>0){
-						swap(i, j);
-					}
-				}else{
-					if(person[i].compareTo(person[j])<0){
-						swap(i, j);
-					}
-				}
-			}
-		}
-		
-	}
-	private void sortingFname(boolean asc) {
-		for (int i = 0; i < person.length-1; i++) {
-			for (int j = 0; j < person.length-1; j++) {
-				if(asc){
-					if(person[i].compareFNameTo(person[j])>0){
-						swap(i, j);
-					}
-				}else{
-					if(person[i].compareFNameTo(person[j])<0){
-						swap(i, j);
-					}
-				}
-			}
-		}
-	}
-	private void sortingLname(boolean asc) {
-		for (int i = 0; i < person.length-1; i++) {
-			for (int j = 0; j < person.length-1; j++) {
-				if(asc){
-					if(person[i].compareLNameTo(person[j])>0){
-						swap(i, j);
-					}
-				}else{
-					if(person[i].compareLNameTo(person[j])<0){
-						swap(i, j);
-					}
-				}
-			}
-		}
-	}
-	private void sortingGPA(boolean asc) {
-		for (int i = 0; i < person.length-1; i++) {
-			for (int j = 0; j < person.length-1; j++) {
-				if(asc){
-					if(person[i].compareGPATo(person[j])){
-						swap(i, j);
-					}
-				}else{
-					if(!person[i].compareGPATo(person[j])){
-						swap(i, j);
-					}
-				}
-			}
-		}
-	}
-	private static void swap(int i, int j){
-		Student temp = person[i];
-		person[i] = person[j];
-		person[j] = temp;
-	}
 	
+	public static void sort(Comparator<Student> c,boolean asc) {
+		Student tmp;
+		for (int k = 0; k < person.length-1; k++) {
+			for (int k2 = 0; k2 < person.length-1; k2++) {
+				if ((c.compare(person[k], person[k2])>0&&asc==false)||(c.compare(person[k], person[k2])<0&&asc==true)) {
+					tmp = person[k];
+					person[k]=person[k2];
+					person[k2]=tmp;
+				}
+			}
+		}
+	}
+	public static Comparator<Student> StdID = new Comparator<Student>() {
+		public int compare(Student o1, Student o2) {
+			int id1 = o1.getID();
+			int id2 = o2.getID();
+			return id1-id2;
+		};
+	};
+	public static Comparator<Student> StdName = new Comparator<Student>() {
+		public int compare(Student o1, Student o2) {
+			String id1 = o1.getFname();
+			String id2 = o2.getFname();
+			return id1.compareTo(id2);
+		};
+	};
+	public static Comparator<Student> StdLName = new Comparator<Student>() {
+		public int compare(Student o1, Student o2) {
+			String id1 = o1.getLname();
+			String id2 = o2.getLname();
+			return id1.compareTo(id2);
+		};
+	};
+	public static Comparator<Student> StdGPA = new Comparator<Student>() {
+		public int compare(Student o1, Student o2) {
+			double id1 = o1.getGPA();
+			double id2 = o2.getGPA();
+			if (id1-id2<0) {
+				return -1;
+			}
+			else if(id1-id2>0) {
+				return 1;
+			}
+			return 0;
+		};
+	};
 	public static void main(String args[]) {
 		launch(args);
 	}
